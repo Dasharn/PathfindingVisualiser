@@ -81,7 +81,7 @@ class Node:
     def draw(self, win):  # Height and width are equal for every node - difference is the position in x and y
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width))
 
-    def evaluate_neighbors(self, grid):
+    def check_neigbours(self, grid):
         # Define the four possible directions: Down, Up, Right, Left
         directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 

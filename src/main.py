@@ -90,31 +90,11 @@ class Node:
     def draw(self, win):  # Height and width are equal for every node - difference is the position in x and y
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width))
 
-    """def evaluate_neighbors(self, grid): - this is only for four possible directions
+    def check_neighbors(self, grid): 
         # Define the four possible directions: Down, Up, Right, Left
         directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
-
-        # Clear the neighbors list
-        self.neighbors = []
-
-        # Iterate over each direction
-        for dr, dc in directions:
-            # Calculate the new row and column values
-            new_row = self.row + dr
-            new_col = self.col + dc
-
-            # Check if the new position is within the grid boundaries
-            if 0 <= new_row < self.total_rows and 0 <= new_col < self.total_rows:
-                # Retrieve the neighbor node from the grid
-                neighbor_node = grid[new_row][new_col]
-
-                # Check if the neighbor node is a barrier
-                if not neighbor_node.is_barrier():
-                    # Append the neighbor node to the neighbors list
-                    self.neighbors.append(neighbor_node)"""
-    def evaluate_neighbors(self, grid):   
-    # Define the eight possible directions: Down, Up, Right, Left, and Diagonals
-        directions = [(1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (-1, -1), (1, -1), (-1, 1)]
+        # Define the 8 possible directions
+         # directions = [(1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (-1, -1), (1, -1), (-1, 1)]
 
         # Clear the neighbors list
         self.neighbors = []
@@ -134,6 +114,7 @@ class Node:
                 if not neighbor_node.is_barrier():
                     # Append the neighbor node to the neighbors list
                     self.neighbors.append(neighbor_node)
+    
 
 
 
@@ -390,25 +371,25 @@ def main(win, win_width):
                 if event.key == pygame.K_a and start and end:
                     for row in grid:
                         for node in row:
-                            node.evaluate_neighbors(grid)
+                            node.check_neighbors(grid)
                     A_Star(lambda: draw_grid(win, grid, rows, win_width), grid, start, end)
 
                 elif event.key == pygame.K_d and start and end:
                     for row in grid:
                         for node in row:
-                            node.evaluate_neighbors(grid)
+                            node.check_neighbors(grid)
                     dijkstras(lambda: draw_grid(win, grid, rows, win_width), grid, start, end)
                 
                 elif event.key == pygame.K_b and start and end:
                     for row in grid:
                         for node in row:
-                            node.evaluate_neighbors(grid)
+                            node.check_neighbors(grid)
                     BFS(lambda: draw_grid(win, grid, rows, win_width), grid, start, end)
                 
                 elif event.key == pygame.K_g and start and end:
                     for row in grid:
                         for node in row:
-                            node.evaluate_neighbors(grid)
+                            node.check_neighbors(grid)
                     greedy(lambda: draw_grid(win, grid, rows, win_width), grid, start, end)
 
                 elif event.key == pygame.K_r:
