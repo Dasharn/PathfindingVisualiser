@@ -1,8 +1,9 @@
+import time
 from queue import PriorityQueue
 import heapq
 import pygame
 from collections import deque
-from settings import Settings
+from node import Node
 
 width = 500
 
@@ -24,15 +25,14 @@ colors = {
 
 # Node states
 states = {
-    "default": "white",
-    "start": "orange",
-    "end": "grey",
-    "barrier": "black",
-    "visited": "green",
-    "explore": "blue",
-    "shortest_path": "yellow"
+    "default":  "#FFFFFF",
+    "start": "#FFA500",
+    "end": "#A9A9A9",
+    "barrier": "#000000",
+    "visited": "#6495ED",
+    "explore": "#00FF00",
+    "shortest_path":  "#EE82EE"
 }
-
 
 class Node:
     def __init__(self, row, col, width, total_rows):
@@ -90,7 +90,7 @@ class Node:
     def draw(self, win):  # Height and width are equal for every node - difference is the position in x and y
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width))
 
-    def evaluate_neighbors(self, grid):
+    """def evaluate_neighbors(self, grid): - this is only for four possible directions
         # Define the four possible directions: Down, Up, Right, Left
         directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 
@@ -111,7 +111,32 @@ class Node:
                 # Check if the neighbor node is a barrier
                 if not neighbor_node.is_barrier():
                     # Append the neighbor node to the neighbors list
+                    self.neighbors.append(neighbor_node)"""
+    def evaluate_neighbors(self, grid):   
+    # Define the eight possible directions: Down, Up, Right, Left, and Diagonals
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (-1, -1), (1, -1), (-1, 1)]
+
+        # Clear the neighbors list
+        self.neighbors = []
+
+        # Iterate over each direction
+        for dr, dc in directions:
+            # Calculate the new row and column values
+            new_row = self.row + dr
+            new_col = self.col + dc
+
+            # Check if the new position is within the grid boundaries
+            if 0 <= new_row < self.total_rows and 0 <= new_col < self.total_rows:
+                # Retrieve the neighbor node from the grid
+                neighbor_node = grid[new_row][new_col]
+
+                # Check if the neighbor node is a barrier
+                if not neighbor_node.is_barrier():
+                    # Append the neighbor node to the neighbors list
                     self.neighbors.append(neighbor_node)
+
+
+
 
 def heuristic(present, target):
     # Unpack the coordinates of the present and target nodes
@@ -148,6 +173,7 @@ def dijkstras(draw, grid, start, end):
 
     # Set to keep track of visited nodes
     visited = set()
+    start_time = time.time()
 
     while queue_set:
         # Get the node with the minimum distance from the priority queue
@@ -175,6 +201,8 @@ def dijkstras(draw, grid, start, end):
 
         if present != start:
             present.already_visited()
+    end_time = time.time()
+    execution_time = end_time - start_time
 
     return False
 
@@ -185,7 +213,8 @@ def BFS(draw, grid, start, end):
     visited = set()
     visited.add(start)
     prior = {}  # Store the parent nodes
-
+    
+    start_time = time.time()
     while queue:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -210,6 +239,9 @@ def BFS(draw, grid, start, end):
 
         if node != start:
             node.already_visited()
+    
+    end_time = time.time()
+    execution_time = end_time - start_time
 
     return False
 
@@ -228,6 +260,8 @@ def A_Star(draw, grid, start, end):
 
     prior = {}
     in_queue = {start}
+
+    start_time = time.time()
 
     while queue_set:
         for event in pygame.event.get():
@@ -260,6 +294,9 @@ def A_Star(draw, grid, start, end):
 
         if present != start:
             present.already_visited()
+    
+    end_time = time.time()
+    execution_time = end_time - start_time
 
     return False
 def greedy(draw, grid, start, end):
@@ -268,6 +305,7 @@ def greedy(draw, grid, start, end):
     visited.add(start)
     prior = {}  # Store the parent nodes
 
+    start_time = time.time()
     while open_set:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -292,6 +330,9 @@ def greedy(draw, grid, start, end):
 
         if current != start:
             current.already_visited()
+    
+    end_time = time.time()
+    execution_time = end_time - start_time
 
     return False
 

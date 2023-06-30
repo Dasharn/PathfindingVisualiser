@@ -1,7 +1,32 @@
-from PathfindingVisualiser.settings import Settings
+import pygame
+
+
+#process of refactoring
+# Colors
+colors = {
+    "white": "#FFFFFF",
+    "orange": "#FFA500",
+    "grey": "#A9A9A9",
+    "black": "#000000",
+    "blue": "#6495ED",
+    "green": "#00FF00",
+    "yellow": "#FFFF00"
+}
+
+# Node states
+states = {
+    "default":  "#FFFFFF",
+    "start": "#FFA500",
+    "end": "#A9A9A9",
+    "barrier": "#000000",
+    "visited": "#6495ED",
+    "explore": "#00FF00",
+    "shortest_path":  "#EE82EE"
+}
+
 
 class Node:
-    def __init__(self, row, col, width, total_rows, states):
+    def __init__(self, row, col, width, total_rows):
         self.row = row
         self.col = col
         # To get coordinate location of node. Grid coordinates (x, y) start at the top left.
@@ -9,8 +34,7 @@ class Node:
         self.y = col * width
         self.width = width
         self.total_rows = total_rows
-        self.states = states
-        self.color = self.states["default"]  # Default colour (of grid)
+        self.color = states["default"]  # Default colour (of grid)
         self.neighbors = []
 
     # Methods to return state of node (True/False)
@@ -18,41 +42,41 @@ class Node:
         return self.row, self.col
 
     def check_start(self):
-        return self.color == self.states["start"]
+        return self.color == states["start"]
 
     def check_end(self):
-        return self.color == self.states["end"]
+        return self.color == states["end"]
 
     def can_explore(self):
-        return self.color == self.states["explore"]
+        return self.color == states["explore"]
 
     def visited(self):
-        return self.color == self.states["visited"]
+        return self.color == states["visited"]
 
     def is_barrier(self):
-        return self.color == self.states["barrier"]
+        return self.color == states["barrier"]
 
     # Assigning colours
     def reset(self):
-        self.color = self.states["default"]
+        self.color = states["default"]
 
     def start_node(self):
-        self.color = self.states["start"]
+        self.color = states["start"]
 
     def end_node(self):
-        self.color = self.states["end"]
+        self.color = states["end"]
 
     def to_explore(self):  # Node opened to signify that its neighbours are next to be evaluated
-        self.color = self.states["explore"]
+        self.color = states["explore"]
 
     def already_visited(self):  # Node already visited and explored
-        self.color = self.states["visited"]
+        self.color = states["visited"]
 
     def make_barrier(self):
-        self.color = self.states["barrier"]
+        self.color = states["barrier"]
 
     def shortest_path(self):
-        self.color = self.states["shortest_path"]
+        self.color = states["shortest_path"]
 
     def draw(self, win):  # Height and width are equal for every node - difference is the position in x and y
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width))
