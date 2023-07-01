@@ -192,3 +192,90 @@ class Algorithm:
         
 
         return False
+    
+    def bidirectional_search(self, draw, grid, start, end):
+        start_queue = deque([start])
+        end_queue = deque([end])
+        start_visited = set()
+        end_visited = set()
+        start_visited.add(start)
+        end_visited.add(end)
+        start_prior = {}
+        end_prior = {}
+
+        intersect_node = None
+
+        while start_queue and end_queue:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+
+            start_node = start_queue.popleft()
+            end_node = end_queue.popleft()
+
+            # Check if the start node has reached the end node
+            if start_node in end_visited:
+                intersect_node = start_node
+                break
+
+            # Check if the end node has reached the start node
+            if end_node in start_visited:
+                intersect_node = end_node
+                break
+
+            for start_neighbor in start_node.neighbours:
+                if start_neighbor not in start_visited and not start_neighbor.is_barrier():
+                    start_visited.add(start_neighbor)
+                    start_queue.append(start_neighbor)
+                    start_prior[start_neighbor] = start_node
+                    start_neighbor.to_explore()
+
+            for end_neighbor in end_node.neighbours:
+                if end_neighbor not in end_visited and not end_neighbor.is_barrier():
+                    end_visited.add(end_neighbor)
+                    end_queue.append(end_neighbor)
+                    end_prior[end_neighbor] = end_node
+                    end_neighbor.to_explore()
+
+            draw()
+
+            if start_node != start:
+                start_node.visited()
+
+            if end_node != end:
+                end_node.visited()
+
+        if intersect_node is None:
+            return False
+
+        self.connect_nodes(start_prior, end_prior, intersect_node, draw)
+        end.end_node()
+        start.start_node()
+
+        return True
+
+    
+    def connect_nodes(self, start_prior, end_prior, intersect_node, draw):
+        
+        # Traverse the path from the intersect node to the start node
+        path = []
+        while intersect_node in start_prior:
+            path.append(intersect_node)
+            intersect_node = start_prior[intersect_node]
+            
+        # Reverse the path to go from start to intersect
+        path.reverse()
+        
+        # Traverse the path from the intersect node to the end node
+        while intersect_node in end_prior:
+            path.append(intersect_node)
+            intersect_node = end_prior[intersect_node]
+            
+        # Add the intersect node to the path
+        path.append(intersect_node)
+        
+        # Color the nodes in the path
+        for node in path:
+            node.shortest_path()
+            draw()
+        

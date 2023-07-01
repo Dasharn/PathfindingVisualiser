@@ -1,6 +1,5 @@
 import pygame
 from node import Node
-from settings import Settings
 
 class Gui:
 

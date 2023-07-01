@@ -6,7 +6,7 @@ class Node:
     def __init__(self, row, col, width, total_rows):
         self.states =  {
     "default":  "#FFFFFF",
-    "start": "#D0E7FF",
+    "start": "#D0E7FF", 
     "end": "#1A34B8",
     "barrier": "#000000",
     "visited": "#87BFFF",
@@ -23,6 +23,7 @@ class Node:
         self.total_rows = total_rows
         self.color = self.states["default"]  # Default colour (of grid)
         self.neighbours = []
+        self.distance = 0
 
     # Methods to return state of node (True/False)
     def get_position(self):
@@ -69,8 +70,8 @@ class Node:
     def shortest_path(self):
         self.color = self.states["shortest_path"]
 
-    def draw(self, win):  # Height and width are equal for every node - difference is the position in x and y
-        pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width))
+    def draw(self, screen):  # Height and width are equal for every node - difference is the position in x and y
+        pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.width))
 
     def check_neighbours(self, grid):
         print("checking neighbours")

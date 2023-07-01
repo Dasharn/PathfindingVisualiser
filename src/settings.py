@@ -1,5 +1,3 @@
-#process of refactoring
-
 class Settings:
     def __init__(self):
         self.states =  {

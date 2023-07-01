@@ -1,6 +1,3 @@
-import time
-from queue import PriorityQueue
-import heapq
 import pygame
 from collections import deque
 from node import *
@@ -58,6 +55,12 @@ class Visualiser:
                             for node in row:
                                 node.check_neighbours(self.grid)
                         self.algo.greedy(lambda: self.gui.draw_grid(), self.grid, self.start, self.end)
+                
+                    elif event.key == pygame.K_s and self.start and self.end:
+                        for row in self.grid:
+                            for node in row:
+                                node.check_neighbours(self.grid)
+                        self.algo.bidirectional_search(lambda: self.gui.draw_grid(), self.grid, self.start, self.end)
 
                     elif event.key == pygame.K_r:
                         self.start = None
@@ -83,7 +86,7 @@ class Visualiser:
 
                 elif pygame.mouse.get_pressed()[2]:
                     position = pygame.mouse.get_pos()
-                    row, col = self.gui.get_clicked_position(position, self.rows, self.width)
+                    row, col = self.gui.get_clicked_position(position)
                     node = self.grid[row][col]
                     node.reset()
                     if node == self.start:
