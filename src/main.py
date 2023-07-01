@@ -62,6 +62,13 @@ class Visualiser:
                                 node.check_neighbours(self.grid)
                         self.algo.bidirectional_search(lambda: self.gui.draw_grid(), self.grid, self.start, self.end)
 
+                    elif event.key == pygame.K_f and self.start and self.end:
+                        for row in self.grid:
+                            for node in row:
+                                node.check_neighbours(self.grid)
+                        self.algo.dead_end_filling(lambda: self.gui.draw_grid(), self.grid, self.start, self.end)
+
+
                     elif event.key == pygame.K_r:
                         self.start = None
                         self.end = None

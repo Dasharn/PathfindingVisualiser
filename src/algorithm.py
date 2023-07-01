@@ -5,18 +5,17 @@ import time
 
 class Algorithm:
 
+    INFINITY = float('inf')
     
 
     def heuristic(self, present, target):
         # Unpack the coordinates of the present and target nodes
+        # Unpack the coordinates of the present and target nodes
         (x1, y1), (x2, y2) = present, target
 
-        # Calculate the distance in each dimension
-        x_distance = abs(x1 - x2)
-        y_distance = abs(y1 - y2)
-
-        # Return the sum of the distances as the heuristic value
-        return x_distance + y_distance
+        # Calculate the Manhattan distance between the present and target nodes
+        return abs(x1 - x2) + abs(y1 - y2)
+        
 
     def find_shortest_path(self, before, present, draw):
         # Traverse the path from the end node to the start node
@@ -279,3 +278,47 @@ class Algorithm:
             node.shortest_path()
             draw()
         
+    def dead_end_filling(self, draw, grid, start, end):
+        stack = [start]
+        visited = set()
+        visited.add(start)
+        prior = {}  # Store the parent nodes
+
+        while stack:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+
+            current = stack.pop()
+
+            if current == end:
+                self.find_shortest_path(prior, end, draw)
+                end.end_node()
+                start.start_node()
+                return True
+
+            dead_ends = []
+
+            for neighbor in current.neighbours:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    stack.append(neighbor)
+                    prior[neighbor] = current
+                    neighbor.to_explore()
+                elif neighbor.is_barrier():
+                    dead_ends.append(neighbor)
+
+            if len(dead_ends) == 3:
+                for node in dead_ends:
+                    node.make_barrier()
+                    node.barrier_color()
+                    draw()
+
+            if current != start:
+                current.visited()
+
+        return False
+
+    
+
+    

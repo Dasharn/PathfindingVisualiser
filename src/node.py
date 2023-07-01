@@ -25,11 +25,25 @@ class Node:
         self.neighbours = []
         self.distance = 0
 
+        #d* light
+
+        self.cost = 0
+        self.rhs = 0
+        self.parent = None
+
     # Methods to return state of node (True/False)
+
     def get_position(self):
         return self.row, self.col
+    
+    def set_color(self, color):
+        self.color = color
+        
+    def get_color(self, color):
+        return self.color
 
     def check_start(self):
+        
         return self.color == self.states["start"]
 
     def check_end(self):
@@ -46,29 +60,35 @@ class Node:
 
     # Assigning colours
     def reset(self):
-        self.color = self.states["default"]
+        self.set_color(self.states["default"])
+        #self.color = self.states["default"]
 
     def start_node(self):
-        self.color = self.states["start"]
+        self.set_color(self.states["start"])
+        #self.color = self.states["start"]
 
-        print("start node color set")
 
     def end_node(self):
-        self.color = self.states["end"]
+        self.set_color(self.states["end"])
+        #self.color = self.states["end"]
 
     def to_explore(self):  # Node opened to signify that its neighbours are next to be evaluated
-        self.color = self.states["explore"]
-        print("to explore")
+        self.set_color(self.states["explore"])
+        #self.color = self.states["explore"]
+        
 
     def visited(self):  # Node already visited and explored
-        self.color = self.states["visited"]
-        print("alread visited")
+        self.set_color(self.states["visited"])
+        #self.color = self.states["visited"]
+        
 
     def make_barrier(self):
-        self.color = self.states["barrier"]
+        self.set_color(self.states["barrier"])
+        #self.color = self.states["barrier"]
 
     def shortest_path(self):
-        self.color = self.states["shortest_path"]
+        self.set_color(self.states["shortest_path"])
+        #self.color = self.states["shortest_path"]
 
     def draw(self, screen):  # Height and width are equal for every node - difference is the position in x and y
         pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.width))
