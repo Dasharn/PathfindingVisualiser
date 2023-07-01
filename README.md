@@ -28,7 +28,6 @@ The Pathfinding Visualizer is a Python application that allows you to visualize 
 2. Install the required dependencies
 pip install pygame
 
-
 ## Usage
 1. Navigate to the project directory
 cd pathfinding-visualiser
