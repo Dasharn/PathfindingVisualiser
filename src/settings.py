@@ -2,16 +2,37 @@
 
 class Settings:
     def __init__(self):
-        self.states = states = {
+        self.states =  {
     "default":  "#FFFFFF",
-    "start": "#FFA500",
-    "end": "#A9A9A9",
+    "start": "#D0E7FF",
+    "end": "#1A34B8",
     "barrier": "#000000",
-    "visited": "#6495ED",
-    "explore": "#00FF00",
-    "shortest_path":  "#EE82EE"}
+    "visited": "#87BFFF",
+    "explore": "#3366FF",
+    "shortest_path": "#8A2BE2",
+    "lines": "#07080C"}
+        self.screen_width = 500
+        self.rows = 50
         
     def get_state(self, state):
         return self.states[state]
+    
     def set_state(self, state):
         self.states[state] = state
+    
+    def get_states(self):
+        return self.states
+
+    def get_rows(self):
+        return self.rows
+    
+    def set_rows(self, rows):
+        self.rows = rows
+    
+    def get_screen_width(self):
+        return self.screen_width
+    
+    def set_screen_width(self, width):
+        self.screen_width = width
+    
+                

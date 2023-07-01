@@ -1,38 +1,50 @@
-# Path-Finding Algorithm Visualizer
+# Pathfinding Visualizer
 
-This is a path-finding algorithm visualizer implemented in Python using the Pygame library. It allows you to visualize four different path-finding algorithms: A*, Dijkstra's algorithm, Breadth-First Search (BFS), and Greedy algorithm.
+The Pathfinding Visualizer is a Python application that allows you to visualize various pathfinding algorithms in action. It provides an interactive GUI where you can set start and end points, add barriers, and choose different pathfinding algorithms to find the shortest path between the start and end points.
 
-## Getting Started
+## Features
 
-1. Install Python if you haven't already. You can download Python from the official website: [Python Downloads](https://www.python.org/downloads/)
+- Graphical user interface (GUI) for interactive grid-based visualization.
+- Support for popular pathfinding algorithms including A*, Dijkstra's, BFS, and Greedy.
+- Click and drag to set the start and end points on the grid.
+- Add barriers by clicking on the grid cells.
+- Clear nodes by right-clicking on the grid cells.
+- Reset the grid to its initial state.
+- Real-time visualization of the algorithm's progress.
+- Different colors represent different states of nodes (start, end, barrier, visited, etc.).
 
-2. Install Pygame library by running the following command:
+## Prerequisites
+
+- Python 3.7 or above
+- Pygame library
+
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/your-username/pathfinding-visualizer.git
+
+2. Install the required dependencies
+pip install pygame
 
 
-3. Clone or download the repository.
+## Usage
+1. Navigate to the project directory
+cd pathfinding-visualiser
 
-4. Run the `main.py` file to start the application.
+2. Run the visualiser
+python visualiser.py
 
-## Instructions
-
-- Use the mouse to interact with the grid:
-- Left-click to place the start node, end node, and barriers.
-- Right-click to remove a node or barrier.
-- Use the keyboard to select and run the algorithms:
-- Press 'a' to run A* algorithm.
-- Press 'd' to run Dijkstra's algorithm.
-- Press 'b' to run Breadth-First Search (BFS).
-- Press 'g' to run Greedy algorithm.
+3. Follow the on-screen instructions to interact with the visualiser
+- Use the 'a' key for A* algorithm, 'd' key for Dijkstra's algorithm, 'b' key for BFS algorithm, and 'g' key for Greedy algorithm.
+- Left-click to set the start and end points, and add barriers.
+- Right-click to clear nodes.
 - Press 'r' to reset the grid.
 
-## Algorithms
 
-- A* Algorithm: Finds the shortest path by considering both the distance from the start node and the heuristic (estimated) distance to the goal.
-- Dijkstra's Algorithm: Finds the shortest path by considering only the distance from the start node.
-- BFS (Breadth-First Search): Finds the shortest path by exploring nodes in breadth-first order.
-- Greedy Algorithm: Finds the path by always choosing the neighbor node that appears to be closest to the goal.
+## Contributing
+- Contributions are welcome! If you have any ideas, suggestions, or bug reports, please open an issue or submit a pull request
 
-## License
 
-This project is licensed under the [MIT License](LICENSE).
 
