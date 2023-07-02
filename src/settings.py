@@ -12,10 +12,10 @@ class Settings:
         self.screen_width = 500
         self.rows = 50
         
-    def get_state(self, state):
+    def get_state_color(self, state):
         return self.states[state]
     
-    def set_state(self, state):
+    def set_state_color(self, state):
         self.states[state] = state
     
     def get_states(self):
