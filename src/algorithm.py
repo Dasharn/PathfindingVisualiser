@@ -1,4 +1,5 @@
 from collections import deque
+from queue import PriorityQueue
 import heapq
 import pygame
 import time
@@ -24,7 +25,7 @@ class Algorithm:
             present.shortest_path()  # Color the present node as YELLOW
             draw()  # Redraw the grid with the updated colors
 
-    def BFS(self, draw, grid, start, end):
+    def bfs(self, draw, grid, start, end):
         queue = deque([start])
         visited = set()
         visited.add(start)
@@ -318,7 +319,4 @@ class Algorithm:
                 current.visited()
 
         return False
-
-    
-
     

@@ -24,8 +24,9 @@ class Node:
         self.color = self.states["default"]  # Default colour (of grid)
         self.neighbours = []
         self.distance = 0
+        self.directions =  [(1, 0), (-1, 0), (0, 1), (0, -1)]
 
-        #d* light
+        #d* light algorithm attributes
 
         self.cost = 0
         self.rhs = 0
@@ -35,6 +36,15 @@ class Node:
 
     def get_position(self):
         return self.row, self.col
+    
+    def get_directions(self):
+        return self.directions
+    
+    def set_directions(self, directions):
+        if directions == 8:
+            self.directions =  [(1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (-1, -1), (1, -1), (-1, 1)]
+        elif directions == 4:
+            self.directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
     
     def set_color(self, color):
         self.color = color
@@ -94,15 +104,15 @@ class Node:
         pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.width))
 
     def check_neighbours(self, grid):
-        print("checking neighbours")
+        
         # Define the four possible directions: Down, Up, Right, Left
-        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        
 
         # Clear the neighbors list
         self.neighbours = []
 
         # Iterate over each direction
-        for dr, dc in directions:
+        for dr, dc in self.get_directions():
             # Calculate the new row and column values
             new_row = self.row + dr
             new_col = self.col + dc
@@ -116,3 +126,7 @@ class Node:
                 if not neighbour_node.is_barrier():
                     # Append the neighbor node to the neighbors list
                     self.neighbours.append(neighbour_node)
+    
+
+    
+    
