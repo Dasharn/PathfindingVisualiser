@@ -40,8 +40,8 @@ class Algorithm:
 
             if node == end:
                 self.find_shortest_path(prior, end, draw)
-                end.end_node()
-                start.start_node()
+                end.end()
+                start.start()
                 return True
             
 
@@ -86,8 +86,8 @@ class Algorithm:
 
             if present == end:  # If end node reached
                 self.find_shortest_path(prior, end, draw)
-                end.end_node()
-                start.start_node()
+                end.end()
+                start.start()
                 return True
 
             for neighbour in present.neighbours:
@@ -134,8 +134,8 @@ class Algorithm:
 
             if present == end:
                 self.find_shortest_path(prior, end, draw)
-                end.end_node()
-                start.start_node()
+                end.end()
+                start.start()
                 return True
 
             for neighbour in present.neighbours:
@@ -173,8 +173,8 @@ class Algorithm:
             
             if current == end:
                 self.find_shortest_path(prior, end, draw)
-                end.end_node()
-                start.start_node()
+                end.end()
+                start.start()
                 return True
 
             for neighbour in current.neighbours:
@@ -249,8 +249,8 @@ class Algorithm:
             return False
 
         self.connect_nodes(start_prior, end_prior, intersect_node, draw)
-        end.end_node()
-        start.start_node()
+        end.end()
+        start.start()
 
         return True
 
@@ -294,8 +294,8 @@ class Algorithm:
 
             if current == end:
                 self.find_shortest_path(prior, end, draw)
-                end.end_node()
-                start.start_node()
+                end.end()
+                start.start()
                 return True
 
             dead_ends = []

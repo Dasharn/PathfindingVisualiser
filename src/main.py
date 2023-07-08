@@ -16,7 +16,7 @@ class Visualiser:
 
     # Create the tkinter screen
         self.screen = pygame.display.set_mode((self.width, self.width))
-        pygame.display.set_caption("Path Finder A*: Press 'a'  Dijkstra's: Press 'd'  Greedy: Press 'g' BFS: Press 'b'  Reset grid: Press 'r'")
+        pygame.display.set_caption("Path Finder A*: Press 'a' BFS: Press 'b'  Dijkstra's: Press 'd'  Greedy: Press 'g'   Reset grid: Press 'r'")
         self.gui = Gui(self.rows, self.width, self.screen, self.states)
         self.start = None
         self.end = None
@@ -73,11 +73,11 @@ class Visualiser:
             if not self.start and node != self.end:
                 self.start = node
                 print("start_node called")
-                self.start.start_node()
+                self.start.start()
             elif not self.end and node != self.start:
                 self.end = node
                 print("end node called")
-                self.end.end_node()
+                self.end.end()
             elif node != self.end and node != self.start:
                 node.make_barrier()
 

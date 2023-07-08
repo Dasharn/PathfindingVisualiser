@@ -24,8 +24,10 @@ class Node:
         self.color = self.states["default"]  # Default colour (of grid)
         self.neighbours = []
         self.distance = 0
-        self.directions =  [(1, 0), (-1, 0), (0, 1), (0, -1)]
-
+        
+        self.four_directions =  [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        self.eight_directions = [(1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (-1, -1), (1, -1), (-1, 1)]
+        self.directions = self.four_directions
         #d* light algorithm attributes
 
         self.cost = 0
@@ -42,9 +44,9 @@ class Node:
     
     def set_directions(self, directions):
         if directions == 8:
-            self.directions =  [(1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (-1, -1), (1, -1), (-1, 1)]
+            self.directions =  self.eight_directions
         elif directions == 4:
-            self.directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+            self.directions = self.four_directions
     
     def set_color(self, color):
         self.color = color
@@ -73,12 +75,12 @@ class Node:
         self.set_color(self.states["default"])
         #self.color = self.states["default"]
 
-    def start_node(self):
+    def start(self):
         self.set_color(self.states["start"])
         #self.color = self.states["start"]
 
 
-    def end_node(self):
+    def end(self):
         self.set_color(self.states["end"])
         #self.color = self.states["end"]
 

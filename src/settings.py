@@ -9,7 +9,7 @@ class Settings:
     "explore": "#3366FF",
     "shortest_path": "#8A2BE2",
     "lines": "#07080C"}
-        self.screen_width = 500
+        self.screen_width = 750
         self.rows = 50
         
     def get_state_color(self, state):
