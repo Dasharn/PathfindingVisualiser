@@ -2,6 +2,12 @@
 
 The Pathfinding Visualizer is a Python application that allows you to visualize various pathfinding algorithms in action. It provides an interactive GUI where you can set start and end points, add barriers, and choose different pathfinding algorithms to find the shortest path between the start and end points.
 
+
+
+https://github.com/Dasharn/PathSense/assets/112700137/2fc66b89-0de0-4bdf-9fba-f1a2d5a0fbdd
+
+
+
 ## Features
 
 - Graphical user interface (GUI) for interactive grid-based visualization.
