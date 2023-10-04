@@ -4,7 +4,7 @@ The Pathfinding Visualizer is a Python application that allows you to visualize 
 
 
 
-https://github.com/Dasharn/PathSense/assets/112700137/2fc66b89-0de0-4bdf-9fba-f1a2d5a0fbdd
+https://github.com/dasharn/PathSense/assets/112700137/2fc66b89-0de0-4bdf-9fba-f1a2d5a0fbdd
 
 
 
@@ -29,7 +29,7 @@ https://github.com/Dasharn/PathSense/assets/112700137/2fc66b89-0de0-4bdf-9fba-f1
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/pathfinding-visualizer.git
+   git clone https://github.com/dasharn/pathfinding-visualizer.git
 
 2. Install the required dependencies
 pip install pygame
@@ -48,8 +48,7 @@ python visualiser.py
 - Press 'r' to reset the grid.
 
 
-## Contributing
-- Contributions are welcome! If you have any ideas, suggestions, or bug reports, please open an issue or submit a pull request
+
 
 
 
