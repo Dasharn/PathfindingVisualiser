@@ -29,7 +29,7 @@ https://github.com/dasharn/PathSense/assets/112700137/2fc66b89-0de0-4bdf-9fba-f1
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/dasharn/pathfinding-visualizer.git
+   git clone https://github.com/dasharn/PathSense.git
 
 2. Install the required dependencies
 pip install pygame
