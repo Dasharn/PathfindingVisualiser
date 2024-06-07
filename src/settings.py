@@ -1,25 +1,28 @@
 class Settings:
-    def __init__(self):
-        self.states =  {
-    "default":  "#FFFFFF",
-    "start": "#D0E7FF",
-    "end": "#1A34B8",
-    "barrier": "#000000",
-    "visited": "#87BFFF",
-    "explore": "#3366FF",
-    "shortest_path": "#8A2BE2",
-    "lines": "#07080C"}
-        self.screen_width = 750
-        self.rows = 50
+    STATES = {
+        "default":  "#FFFFFF",
+        "start": "#D0E7FF",
+        "end": "#1A34B8",
+        "barrier": "#000000",
+        "visited": "#87BFFF",
+        "explore": "#3366FF",
+        "shortest_path": "#8A2BE2",
+        "lines": "#07080C"
+    }
+
+    def __init__(self, screen_width=750, rows=50):
+        self.STATES = self.STATES
+        self.screen_width = screen_width
+        self.rows = rows
         
     def get_state_color(self, state):
-        return self.states[state]
+        return self.STATES[state]
     
     def set_state_color(self, state):
-        self.states[state] = state
+        self.STATES[state] = state
     
-    def get_states(self):
-        return self.states
+    def get_STATES(self):
+        return self.STATES
 
     def get_rows(self):
         return self.rows
