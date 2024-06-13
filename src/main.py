@@ -44,20 +44,21 @@ class Visualiser:
                 if event.type == pygame.QUIT:
                     self.running = False
                 # Handle the key events
-                self.handle_key_event(event)
+                elif event.type == pygame.KEYDOWN:
+                    self.handle_key_event(event)
                 # Handle the mouse events
-                self.handle_mouse_event(event)
+                else:
+                    self.handle_mouse_event(event)
 
         # Quit pygame when the loop is done
         pygame.quit()
 
     def handle_key_event(self, event):
-        if event.type == pygame.KEYDOWN:
-            if self.start and self.end:
-                self.update_neighbours()
-                self.run_algorithm(event.key)
-            elif event.key == pygame.K_r:
-                self.reset_and_recreate_grid()
+        if self.start and self.end:
+            self.update_neighbours()
+            self.run_algorithm(event.key)
+        elif event.key == pygame.K_r:
+            self.reset_and_recreate_grid()
 
     def update_neighbours(self):
         for row in self.grid:
