@@ -16,10 +16,7 @@ class Gui:
     def make_grid(self):
         node_width = self.screen_width // self.rows
 
-        # Use list comprehension to create the grid
         grid = [[Node(i, j, node_width, self.rows) for j in range(self.rows)] for i in range(self.rows)]
-
-        self.grid = grid
 
         return grid
     
