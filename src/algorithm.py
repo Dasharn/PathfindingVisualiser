@@ -25,172 +25,192 @@ class Algorithm:
             present.shortest_path()  # Color the present node as YELLOW
             draw()  # Redraw the grid with the updated colors
 
+
     def bfs(self, draw, grid, start, end):
         queue = deque([start])
-        visited = set()
-        visited.add(start)
-        prior = {}  # Store the parent nodes
-        
+        visited = {start}
+        prior = {}  # Track parent nodes for shortest path reconstruction
+    
         while queue:
+            # Handle Pygame events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-
-            node = queue.popleft()
-
-            if node == end:
+    
+            current_node = queue.popleft()
+    
+            # If the end node is reached, reconstruct the path
+            if current_node == end:
                 self.find_shortest_path(prior, end, draw)
-                end.end()
-                start.start()
+                end.end()  # Mark the end node
+                start.start()  # Mark the start node
                 return True
-            
-
-            for neighbour in node.neighbours:
-                if neighbour not in visited:
-                    prior[neighbour] = node
-                    queue.append(neighbour)
-                    visited.add(neighbour)
-                    neighbour.to_explore() 
-
+    
+            # Explore the neighbors of the current node
+            for neighbor in current_node.neighbours:
+                if neighbor not in visited:
+                    prior[neighbor] = current_node
+                    queue.append(neighbor)
+                    visited.add(neighbor)
+                    neighbor.to_explore()  # Mark the neighbor as being explored
+    
+            # Draw the updated grid
             draw()
-
-            if node != start:
-                node.visited()
-        
-        
-
+    
+            # Mark the current node as visited, excluding the start node
+            if current_node != start:
+                current_node.visited()
+    
         return False
 
             
     def dijkstras(self, draw, grid, start, end):
-        count = 0  # If 2 nodes mid-path give the same distance, node with lower count can be given priority
-
-        # Priority queue to store nodes with their respective distances
-        queue_set = []
-        heapq.heappush(queue_set, (0, count, start))
-
-        # Store the distances from the start node to each node in the grid
+        count = 0  # Priority counter to break ties in distances
+        priority_queue = []
+        heapq.heappush(priority_queue, (0, count, start))
+    
+        # Initialize distances with infinity for all nodes, except the start node
         distances = {node: float("inf") for row in grid for node in row}
         distances[start] = 0
-
-        # Store the previous node in the shortest path
+    
+        # Dictionary to store the previous nodes for path reconstruction
         prior = {}
-
-        # Set to keep track of visited nodes
+    
+        # Set to track visited nodes
         visited = set()
-
-        while queue_set:
-            # Get the node with the minimum distance from the priority queue
-            present = heapq.heappop(queue_set)[2]
-            visited.add(present)
-
-            if present == end:  # If end node reached
+    
+        while priority_queue:
+            # Pop the node with the smallest distance from the priority queue
+            current_node = heapq.heappop(priority_queue)[2]
+            visited.add(current_node)
+    
+            # Check if the end node has been reached
+            if current_node == end:
                 self.find_shortest_path(prior, end, draw)
-                end.end()
-                start.start()
+                end.end()  # Mark the end node
+                start.start()  # Mark the start node
                 return True
-
-            for neighbour in present.neighbours:
-                new_distance = distances[present] + 1  # Distance from start to neighbour is always 1
-
-                if new_distance < distances[neighbour]:  # If a shorter path is found
-                    prior[neighbour] = present
-                    distances[neighbour] = new_distance
-                    if neighbour not in visited:
+    
+            # Explore each neighbor of the current node
+            for neighbor in current_node.neighbours:
+                new_distance = distances[current_node] + 1  # Assume all edges have a weight of 1
+    
+                # If a shorter path to the neighbor is found
+                if new_distance < distances[neighbor]:
+                    prior[neighbor] = current_node
+                    distances[neighbor] = new_distance
+    
+                    if neighbor not in visited:
                         count += 1
-                        heapq.heappush(queue_set, (distances[neighbour], count, neighbour))
-                        neighbour.to_explore()
-
+                        heapq.heappush(priority_queue, (new_distance, count, neighbor))
+                        neighbor.to_explore()  # Mark the neighbor for exploration
+    
+            # Redraw the grid to visualize the algorithm's progress
             draw()
-
-            if present != start:
-                present.visited()
+    
+            # Mark the current node as visited, excluding the start node
+            if current_node != start:
+                current_node.visited()
+    
+        return False
         
 
     def A_Star(self, draw, grid, start, end):
-        count = 0  # If 2 nodes mid-path give the same distance, node with lower count can be traversed.
-
-        queue_set = []
-        heapq.heappush(queue_set, (0, count, start))
-
-        edge_total = {spot: float("inf") for row in grid for spot in row}
-        edge_total[start] = 0
-
-        total_distance = {spot: float("inf") for row in grid for spot in row}
-        total_distance[start] = self.heuristic(start.get_position(), end.get_position())
-
-        prior = {}
-        in_queue = {start}
-
-        start_time = time.time()
-
-        while queue_set:
+        count = 0  # Counter to prioritize nodes with equal distances
+        priority_queue = []
+        heapq.heappush(priority_queue, (0, count, start))
+    
+        # Distance from the start node to each node (g score)
+        g_score = {node: float("inf") for row in grid for node in row}
+        g_score[start] = 0
+    
+        # Estimated total distance (g score + heuristic) to the end (f score)
+        f_score = {node: float("inf") for row in grid for node in row}
+        f_score[start] = self.heuristic(start.get_position(), end.get_position())
+    
+        prior = {}  # To reconstruct the path
+        in_queue = {start}  # Track nodes in the priority queue
+    
+        while priority_queue:
+            # Handle Pygame events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-
-            present = heapq.heappop(queue_set)[2]
-            in_queue.remove(present)
-
-            if present == end:
+    
+            # Pop the node with the lowest f score
+            current_node = heapq.heappop(priority_queue)[2]
+            in_queue.remove(current_node)
+    
+            # Check if the end node is reached
+            if current_node == end:
                 self.find_shortest_path(prior, end, draw)
                 end.end()
                 start.start()
                 return True
-
-            for neighbour in present.neighbours:
-                new_edge_total = edge_total[present] + 1
-
-                if new_edge_total < edge_total[neighbour]:
-                    prior[neighbour] = present
-                    edge_total[neighbour] = new_edge_total
-                    total_distance[neighbour] = new_edge_total + self.heuristic(neighbour.get_position(), end.get_position())
-                    if neighbour not in in_queue:
+    
+            # Explore each neighbor of the current node
+            for neighbor in current_node.neighbours:
+                tentative_g_score = g_score[current_node] + 1  # Assume all edges have a weight of 1
+    
+                # If a better path to the neighbor is found
+                if tentative_g_score < g_score[neighbor]:
+                    prior[neighbor] = current_node
+                    g_score[neighbor] = tentative_g_score
+                    f_score[neighbor] = tentative_g_score + self.heuristic(neighbor.get_position(), end.get_position())
+    
+                    if neighbor not in in_queue:
                         count += 1
-                        heapq.heappush(queue_set, (total_distance[neighbour], count, neighbour))
-                        in_queue.add(neighbour)
-                        neighbour.to_explore()
-
+                        heapq.heappush(priority_queue, (f_score[neighbor], count, neighbor))
+                        in_queue.add(neighbor)
+                        neighbor.to_explore()
+    
+            # Visualize the grid updates
             draw()
-
-            if present != start:
-                present.visited()
+    
+            # Mark the current node as visited, excluding the start node
+            if current_node != start:
+                current_node.visited()
+    
+        return False
         
         
     
     def greedy(self, draw, grid, start, end):
         open_set = [start]
-        visited = set()
-        visited.add(start)
-        prior = {}  # Store the parent nodes
-
+        visited = {start}
+        prior = {}  # Store the parent nodes for path reconstruction
+    
         while open_set:
+            # Handle Pygame events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-
+    
+            # Pop the last node added to the open set
             current = open_set.pop()
-            
+    
+            # If the end node is reached, reconstruct the path
             if current == end:
                 self.find_shortest_path(prior, end, draw)
                 end.end()
                 start.start()
                 return True
-
-            for neighbour in current.neighbours:
-                if neighbour not in visited:
-                    prior[neighbour] = current
-                    open_set.append(neighbour)
-                    visited.add(neighbour)
-                    neighbour.to_explore()
-
+    
+            # Explore neighbors of the current node
+            for neighbor in current.neighbours:
+                if neighbor not in visited:
+                    prior[neighbor] = current
+                    open_set.append(neighbor)  # Add the neighbor to the open set
+                    visited.add(neighbor)  # Mark it as visited
+                    neighbor.to_explore()  # Mark the neighbor as being explored
+    
+            # Redraw the grid to visualize the algorithm's progress
             draw()
-
+    
+            # Mark the current node as visited, excluding the start node
             if current != start:
                 current.visited()
-        
-        
-
+    
         return False
     
     def bidirectional_search(self, draw, grid, start, end):
@@ -279,44 +299,53 @@ class Algorithm:
             node.shortest_path()
             draw()
         
+    
+
     def dead_end_filling(self, draw, grid, start, end):
         stack = [start]
-        visited = set()
-        visited.add(start)
-        prior = {}  # Store the parent nodes
-
+        visited = {start}
+        prior = {}  # Store the parent nodes for path reconstruction
+    
         while stack:
+            # Handle Pygame events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-
+    
             current = stack.pop()
-
+    
+            # If the end node is reached, reconstruct the path
             if current == end:
                 self.find_shortest_path(prior, end, draw)
                 end.end()
                 start.start()
                 return True
-
+    
             dead_ends = []
-
+    
+            # Explore neighbors of the current node
             for neighbor in current.neighbours:
                 if neighbor not in visited:
                     visited.add(neighbor)
-                    stack.append(neighbor)
-                    prior[neighbor] = current
+                    stack.append(neighbor)  # Add neighbor to stack for further exploration
+                    prior[neighbor] = current  # Track the path
                     neighbor.to_explore()
-                elif neighbor.is_barrier():
+                elif neighbor.is_barrier():  # Check if the neighbor is a barrier
                     dead_ends.append(neighbor)
-
+    
+            # If the current node is a dead-end (surrounded by 3 barriers), convert them visually
             if len(dead_ends) == 3:
-                for node in dead_ends:
-                    node.make_barrier()
-                    node.barrier_color()
-                    draw()
-
+                for dead_end in dead_ends:
+                    dead_end.make_barrier()  # Mark as barrier
+                    dead_end.barrier_color()  # Apply barrier color for visualization
+                draw()  # Redraw the grid
+    
+            # Mark the current node as visited, excluding the start node
             if current != start:
                 current.visited()
-
+    
+            draw()  # Redraw the grid after visiting the node
+    
         return False
     
+        
