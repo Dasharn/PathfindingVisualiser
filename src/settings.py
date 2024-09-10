@@ -1,5 +1,5 @@
 class Settings:
-    STATES = {
+    DEFAULT_STATES = {
         "default":  "#FFFFFF",
         "start": "#D0E7FF",
         "end": "#1A34B8",
@@ -11,17 +11,17 @@ class Settings:
     }
 
     def __init__(self, screen_width=750, rows=50):
-        self.STATES = self.STATES
         self.screen_width = screen_width
         self.rows = rows
-        
+        self.STATES = self.DEFAULT_STATES.copy()  # Ensure we don't modify the class-level dict
+
     def get_state_color(self, state):
-        return self.STATES[state]
+        return self.STATES.get(state, "#FFFFFF")  # Return default color if state not found
     
-    def set_state_color(self, state):
-        self.STATES[state] = state
+    def set_state_color(self, state, color):
+        self.STATES[state] = color  # Set the color for a given state
     
-    def get_STATES(self):
+    def get_states(self):
         return self.STATES
 
     def get_rows(self):
@@ -35,5 +35,5 @@ class Settings:
     
     def set_screen_width(self, width):
         self.screen_width = width
-    
+
                 
